@@ -1,5 +1,6 @@
-# digiframe
-A minetest mod for digiline-enabled item frames.
+# Digiframe
+
+A **minetest** mod for digiline-enabled item frames.
 
 The basic idea behind this mod is to have nodes that display an item set via digilines.
 
@@ -22,8 +23,10 @@ This mode provide 3 nodes:
   - Digiline wiring: any side
   
 The digiline channel is set via right-click as usual.
+
+![Screenshot 1](screenshots/screenshot1.png)
   
-# Digiline control
+## Digiline control
 
 To display an item, send over the appropriate channel the "set" command, with the required itemstring as "item":
 ```
@@ -49,7 +52,7 @@ The "notify" event is emitted when the displayed item is changed:
 { event = "notify", item = "default:tree" }
 ```
 
-# API
+## API
 
 The mod also provides an API for registering new digiline-enabled nodes, e.g.
 ```
@@ -93,3 +96,5 @@ digiframe.register_node("mynode:aquarium", {
 ```
 
 There might be other things in the `digiframe` object, but they are not considered mature enough (and hence subject to changes), so are not part of the public API.
+
+![Screenshot 2](screenshots/screenshot2.png)
