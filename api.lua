@@ -41,7 +41,15 @@ digiframe.rules = {
     {x= 1, y=0, z= 0},
     {x= 0, y=0, z=-1},
     {x= 0, y=0, z= 1},
-  }
+  },
+  -- Connectivity from sides and bottom
+  sides_bottom = {
+    {x=-1, y=0, z= 0},
+    {x= 1, y=0, z= 0},
+    {x= 0, y=0, z=-1},
+    {x= 0, y=0, z= 1},
+    {x= 0, y=-1, z= 0},
+  },
 }
 
 -- Groups for types of frame
@@ -65,7 +73,7 @@ digiframe.groups = {
   },
   -- 3 = rotated on top of a half-size block, wiring from sides
   --     i.e. anvil-like, but inside the node (assumingly slab-like)
-  { wiring = digiframe.rules.sides, 
+  { wiring = digiframe.rules.sides_bottom, 
     offset = { x = 0, y = 0.5/16, z = 0,
                rot = { pitch = -1.5708, yaw = math.pi / 20 }},
   },
