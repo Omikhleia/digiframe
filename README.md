@@ -13,7 +13,7 @@ Dependencys:
 
 ## Nodes
 
-This mod provide 3 nodes:
+This mod provides 3 nodes:
 - "Digiline frame", which is similar to homedecor's "itemframe", displaying an item in the front of a (thin) panel.
   - Craft (shapeless): itemframe, digiline wire.
   - Digiline wiring: back side
@@ -62,8 +62,8 @@ digiframe.register_node(nodename, nodedata)
 ```
 
 Where:
-- _nodename_ is the itemstring for the new name
-- _nodedata_ is the definition for the visual aspect of the node (description, draw type and associated fields, parameters, groups, sounds, etc.), with all behavior callbacks and digiline declarations left aside, as the mod will provide these.
+- _nodename_ is the name (itemstring) for the new node.
+- _nodedata_ is the definition for the visual aspect of the node (description, draw type and associated fields and tiles, parameters, groups, sounds, etc.), with all behavior callbacks and digiline declarations left aside, as the mod will provide these.
 - In the groups, the `digiframe` level must be set, with one of the following values:
   - 1: Thin frame-like node (same depth as an homedecor itemframe) = item is displayed slightly extruded; digiline wiring is from the back of the frame.
   - 2: Full block (assumingly glass-like) = item is displayed inside the node and rotates over the Y-axis; digiline wiring is from any side.
