@@ -8,16 +8,16 @@ The basic idea behind this mod is to have nodes that display an item set via dig
 
 Dependencys:
 - default, digilines
-- (optional) screwdriver, mesecons_mvps
-- (optional) itemframes - part of the "homedecor" modpart, and only used for crafting recipes.
+- (optional) screwdriver, mesecons_mvps - just to play well with these when they are enabled.
+- (optional) itemframes - part of the "homedecor" modpack, and only used for crafting recipes.
 
 ## Nodes
 
-This mode provide 3 nodes:
-- "Digiline frame", which is similar to homedecor's "itemframe", displaying an item in the front of a thin panel.
+This mod provide 3 nodes:
+- "Digiline frame", which is similar to homedecor's "itemframe", displaying an item in the front of a (thin) panel.
   - Craft (shapeless): itemframe, digiline wire.
   - Digiline wiring: back side
-- "Digiline pedestal", displaying an item over an half-sized node (slap), in a way similar to anvils. Actually, itt tries to be clever, flat objects being displayed turned upwards (as on an anvil indeed), but cubic object being represented in their usual upright orientation.
+- "Digiline pedestal", displaying an item over an half-sized node (slap), in a way similar to anvils. Actually, it tries to be clever, flat objects being displayed turned upwards (as on an anvil, indeed), but cubic object being represented in their usual upright orientation.
   - Craft (shapeless): itemframe, digiline wire, any item belonging to the wood group.
   - Digiline wiring: any side, or bottom
 - "Digiline glass", where the item is displayed inside the node (assumingly transparent, glass-like), rotating
@@ -97,6 +97,6 @@ digiframe.register_node("mynode:aquarium", {
 })
 ```
 
-There might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API.
+As of version 1.0, there might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may check `digiframe.version` (float value as major, minor), to confirm the version of the API.
 
 ![Screenshot 2](screenshots/screenshot2.png)
