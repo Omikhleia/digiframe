@@ -1,5 +1,7 @@
 # Digiframe
 
+EXPERIMENTAL
+
 A **minetest** mod for digiline-enabled item frames.
 
 The basic idea behind this mod is to have nodes that display an item set via digilines.
@@ -61,8 +63,8 @@ digiframe.register_node(nodename, nodedata)
 
 Where:
 - _nodename_ is the itemstring for the new name
-- _nodedata_ is the definition for the visual aspect of the node (description, draw type and associated fields, parameters, groups), with all behavior callbacks left aside, as the mod will provide these.
-- In the groups, the `digiframe` level must be set, with one of the following values
+- _nodedata_ is the definition for the visual aspect of the node (description, draw type and associated fields, parameters, groups, sounds, etc.), with all behavior callbacks and digiline declarations left aside, as the mod will provide these.
+- In the groups, the `digiframe` level must be set, with one of the following values:
   - 1: Thin frame-like node (same depth as an homedecor itemframe) = item is displayed slightly extruded; digiline wiring is from the back of the frame.
   - 2: Full block (assumingly glass-like) = item is displayed inside the node and rotates over the Y-axis; digiline wiring is from any side.
   - 3: Half block = item is displayed on the half-block top; digiline wiring is from any side, or bottom.
@@ -95,6 +97,6 @@ digiframe.register_node("mynode:aquarium", {
 })
 ```
 
-There might be other things in the `digiframe` object, but they are not considered mature enough (and hence subject to changes), so are not part of the public API.
+There might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API.
 
 ![Screenshot 2](screenshots/screenshot2.png)
