@@ -6,10 +6,14 @@ A **minetest** mod for digiline-enabled item frames.
 
 The basic idea behind this mod is to have nodes that display an item set via digilines.
 
-Dependencys:
+Dependencies:
 - default, digilines
 - (optional) screwdriver, mesecons_mvps - just to play well with these when they are enabled.
 - (optional) itemframes - part of the "homedecor" modpack, and only used for crafting recipes.
+
+Compared to regular itemframes, the digiline frames don't have a owner and are just for display.
+
+The infotext is set to the name of the displayed item, followed by "(framed)".
 
 ## Nodes
 
@@ -97,6 +101,6 @@ digiframe.register_node("mynode:aquarium", {
 })
 ```
 
-As of version 1.0, there might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may check `digiframe.version` (float value as major, minor), to confirm the version of the API.
+As of version 1.0, there might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may however check `digiframe.version` (float value as major, minor), to confirm the version of the API. Minor changes should break compatibility, while major changes may introduce breaking changes.
 
 ![Screenshot 2](screenshots/screenshot2.png)
