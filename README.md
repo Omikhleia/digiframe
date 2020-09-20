@@ -9,7 +9,7 @@ common API.
 > This modpack aims at providing an API for mod developers to possibly
 > register their own item-framing constructs, with extended features.
 
-Besides the [framing_lib](framing_lib/README.md) API, it provides several secondary mods
+Besides the [framing_api](framing_api/README.md) API, it provides several secondary mods
 that you may enable or not in your world, depending on your needs:
 - [digiframe](digiframe/README.md): digiline-enabled item frames
 - [tubeframe](tubeframe/README.md): pipeworks tube-enabled item frames
