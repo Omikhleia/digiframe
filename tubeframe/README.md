@@ -42,4 +42,4 @@ Where:
   - 2: Full block (assumingly glass-like) = item is displayed inside the node and rotates over the Y-axis.
   - 3: Half block = item is displayed on the half-block top.
 
-As of version 1.0, there might be other things in the `tubeframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may however check `tubeframe.version` (float value as major, minor), to confirm the version of the API. Minor changes should break compatibility, while major changes may introduce breaking changes.
+As of version 1.0, there might be other things in the `tubeframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may however check `tubeframe.version` (float value as major, minor), to confirm the version of the API. Minor changes should not break compatibility, while major changes may introduce breaking changes.

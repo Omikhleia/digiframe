@@ -98,6 +98,6 @@ digiframe.register_node("mynode:aquarium", {
 })
 ```
 
-As of version 1.0, there might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may however check `digiframe.version` (float value as major, minor), to confirm the version of the API. Minor changes should break compatibility, while major changes may introduce breaking changes.
+As of version 1.0, there might be other things in the `digiframe` object, but they are not considered mature enough (and hence, are subject to changes), so are not part of the public API. You may however check `digiframe.version` (float value as major, minor), to confirm the version of the API. Minor changes should not break compatibility, while major changes may introduce breaking changes.
 
 ![Screenshot 2](screenshots/screenshot2.png)

@@ -17,8 +17,7 @@ As of version 1.0, there might be other things in this object, but they are not 
 
 `framing_api.version`
 
-Version of the API. Minor changes should break compatibility, while major changes may introduce
-breaking changes.
+Version of the API. Minor changes should not break compatibility, while major changes may introduce breaking changes.
 
 `framing_api.core.remove_item(pos)`
 
