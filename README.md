@@ -11,7 +11,7 @@ common API.
 
 Besides the API, it provides several small mods that you may enable
 or not in your world, depending on your needs:
-- digiframe: digiline-enabled item frames
+- [digiframe](digiframe/README.md): digiline-enabled item frames
 
 ## Installing
 
