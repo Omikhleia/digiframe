@@ -5,9 +5,8 @@ A **minetest** mod for digiline-enabled item frames.
 The basic idea behind this mod is to have nodes that display an item set via digilines.
 
 Dependencies:
-- default, digilines, framing_api
-- (optional) screwdriver, mesecons_mvps - just to play well with these when they are enabled.
-- (optional) itemframes - part of the "homedecor" modpack, and only used for crafting recipes.
+- `default`, `digilines`, `framing_api`
+- (optional) `itemframes` - part of the "homedecor" modpack, and only used for crafting recipes.
 
 Compared to regular itemframes, the digiline frames don't have a owner and are just for display.
 

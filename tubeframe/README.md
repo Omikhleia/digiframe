@@ -6,9 +6,8 @@ The basic idea behind this mod is to have item frames which content was injected
 via a tube.
 
 Dependencies:
-- default, pipeworks, framing_api
-- (optional) screwdriver, mesecons_mvps - just to play well with these when they are enabled.
-- (optional) itemframes - part of the "homedecor" modpack, and only used for crafting recipes.
+- `default`, `pipeworks`, `framing_api`
+- (optional) `itemframes` - part of the "homedecor" modpack, and only used for crafting recipes.
 
 Compared to regular itemframes, the tube-enabled frames don't have a owner. This means that
 any player punching or right-clicking the node can retrieve the displayed item. It is under
