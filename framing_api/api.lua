@@ -123,20 +123,22 @@ framing_api.core.update_item = function(pos, node)
     local group = minetest.get_item_group(node.name, "framing")
     local offset = framing_api.groups[group].offset
 
-    pos.x = pos.x + delta.x * offset.x
-    pos.y = pos.y + offset.y
-    pos.z = pos.z + delta.z * offset.z
-    
+    local entity_pos = {
+      x = pos.x + delta.x * offset.x,
+      y = pos.y + offset.y,
+      z = pos.z + delta.z * offset.z,
+    }
+
     tmp.nodename = node.name
     tmp.texture = stack:get_name()
-    local ent = minetest.add_entity(pos, "framing_api:item")
+    local ent = minetest.add_entity(entity_pos, "framing_api:item")
     local yaw = math.pi * 2 - node.param2 * math.pi / 2
     if (offset.rot ~= nil) then
       if itemdef and not is_extruded(itemdef) then
         -- Keep nodes upright
-        pos.y = pos.y + 0.5*0.33 + 1/16
+        entity_pos.y = entity_pos.y + 0.5*0.33 + 1/16
         ent:set_rotation({x = 0, y = yaw + offset.rot.yaw, z = 0}) -- pitch, yaw, roll        
-        ent:set_pos(pos)
+        ent:set_pos(entity_pos)
       else
         -- Flip everything else horizontally
         ent:set_rotation({x = offset.rot.pitch, y = yaw + offset.rot.yaw, z = 0})
@@ -154,9 +156,12 @@ framing_api.core.drop_item = function(pos, node)
   local itemname = meta:get_string("item")
 
   if itemname ~= "" then
-    minetest.add_item(pos, itemname)
+    minetest.add_item({x=pos.x,y=pos.y+1,z=pos.z}, itemname) 
+      -- FIXME: position could be based on the frame type, maybe.
     meta:set_string("item", "")
+    meta:set_string("infotext", "")
   end
+  framing_api.core.remove_item(pos)
 end
 
 minetest.register_entity("framing_api:item",{

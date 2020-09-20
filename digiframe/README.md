@@ -19,7 +19,7 @@ This mod provides 3 nodes:
 - "Digiline frame", which is similar to homedecor's "itemframe", displaying an item in the front of a (thin) panel.
   - Craft (shapeless): itemframe, digiline wire.
   - Digiline wiring: back side
-- "Digiline pedestal", displaying an item over an half-sized node (slap), in a way similar to anvils. Actually, it tries to be clever, flat objects being displayed turned upwards (as on an anvil, indeed), but cubic object being represented in their usual upright orientation.
+- "Digiline pedestal", displaying an item over an half-sized node (slab), in a way similar to anvils. Actually, it tries to be clever, flat objects being displayed turned upwards (as on an anvil, indeed), but cubic object being represented in their usual upright orientation.
   - Craft (shapeless): itemframe, digiline wire, any item belonging to the wood group.
   - Digiline wiring: any side, or bottom
 - "Digiline glass", where the item is displayed inside the node (assumingly transparent, glass-like), rotating
