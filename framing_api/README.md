@@ -1,4 +1,4 @@
-# Tubeframe
+# Framing API
 
 A **minetest** API for item framing.
 
