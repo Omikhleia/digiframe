@@ -12,6 +12,7 @@ common API.
 Besides the API, it provides several small mods that you may enable
 or not in your world, depending on your needs:
 - [digiframe](digiframe/README.md): digiline-enabled item frames
+- [tubeframe](tubeframe/README.md): pipeworks tub-enabled item frames
 
 ## Installing
 
