@@ -1,9 +1,10 @@
 --[[
-  Sample digiline-enabled frame
+  Digiline-enabled frames
   Omikhleia 2020.
   MIT-lisenced.
 --]]
-local S = digiframe.S
+
+local S = framing_api.S
 
 digiframe.register_node("digiframe:frame", {
   description = S("Digiline frame"),

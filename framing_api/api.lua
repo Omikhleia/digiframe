@@ -3,77 +3,46 @@
   Omikhleia 2020.
   MIT-lisenced.
 --]]
-digiframe = {
+framing_api = {
   version = 1.0,
   S = function(s)
     return s -- FIXME: Later for intllib support if eventually requested
-  end
+  end,
+  core = {},
 }
 
 local tmp = {}
 screwdriver = screwdriver or {}
 
-local S = digiframe.S
+local S = framing_api.S
 
 local function logger(msg, arg, nodename, pos)
-  -- minetest.chat_send_all("[digiframe] "..msg.." "
-    -- ..arg.." in " ..nodename.." at "
-    -- ..minetest.pos_to_string(pos))
-  minetest.log("action","[digiframe] "..msg.." "
+  minetest.log("action","[framing_api] "..msg.." "
     ..arg.." in " ..nodename.." at "
     ..minetest.pos_to_string(pos))
 end
 
--- Rules for digiline wiring
---
-digiframe.rules = {
-  -- Connectivity from back side (based on node orientation)
-  back = function(node)
-    local rules = {{x=-1, y=0, z=0}}
-    for i = 0, node.param2 do
-      rules = mesecon.rotate_rules_left(rules)
-    end
-    return rules
-  end,
-  -- Connectivity from sides
-  sides = {
-    {x=-1, y=0, z= 0},
-    {x= 1, y=0, z= 0},
-    {x= 0, y=0, z=-1},
-    {x= 0, y=0, z= 1},
-  },
-  -- Connectivity from sides and bottom
-  sides_bottom = {
-    {x=-1, y=0, z= 0},
-    {x= 1, y=0, z= 0},
-    {x= 0, y=0, z=-1},
-    {x= 0, y=0, z= 1},
-    {x= 0, y=-1, z= 0},
-  },
-}
-
 -- Groups for types of frame
 --[[
   The group defines the type of frame:
-  - digiline wiring
   - offset from node position (reminder: items are seached with a radius
     of 0.5 so the offset shall not set the item farther than that.
   - rotation
 --]]
-digiframe.groups = {
-  -- 1 = same constants as homedecor item frame, wiring from back
+framing_api.groups = {
+  -- 1 = same constants as homedecor item frame
   --     i.e. frame-like
-  { wiring = digiframe.rules.back, 
+  {
     offset = { x = 6.5/16, y = 0, z = 6.5/16 },
   }, 
-  -- 2 = inside node, wiring from sides, rotating over Y-axis
+  -- 2 = inside node, rotating over Y-axis
   --     i.e. pedestal-like, but inside the node (assumingly glass-like)
-  { wiring = digiframe.rules.sides, 
+  {
     offset = { x = 0, y = 0, z = 0 },
   },
-  -- 3 = rotated on top of a half-size block, wiring from sides
+  -- 3 = rotated on top of a half-size block
   --     i.e. anvil-like, but inside the node (assumingly slab-like)
-  { wiring = digiframe.rules.sides_bottom, 
+  { 
     offset = { x = 0, y = 0.5/16, z = 0,
                rot = { pitch = -1.5708, yaw = math.pi / 20 }},
   },
@@ -81,11 +50,11 @@ digiframe.groups = {
  
 -- Orientation for frame item
 --
-local digiframe_facedir = {}
-digiframe_facedir[0] = { x = 0, z = 1 }
-digiframe_facedir[1] = { x = 1, z = 0 }
-digiframe_facedir[2] = { x = 0, z = -1 }
-digiframe_facedir[3] = { x = -1, z = 0 }
+local framing_facedir = {}
+framing_facedir[0] = { x = 0, z = 1 }
+framing_facedir[1] = { x = 1, z = 0 }
+framing_facedir[2] = { x = 0, z = -1 }
+framing_facedir[3] = { x = -1, z = 0 }
 
 -- Helper to guess how the "wielditem" is rendered
 -- FIXME: Might not be generic enough, part is a guess: 
@@ -117,27 +86,27 @@ local function is_extruded(itemdef)
   return false
 end
 
--- Functions for removing/adding item image
+-- Functions for removing/adding items
 -- 
-local remove_item = function(pos)
+framing_api.core.remove_item = function(pos)
   local objs = minetest.get_objects_inside_radius(pos, 0.5)
   if objs then
     for _, obj in ipairs(objs) do
-      if obj and obj:get_luaentity() and obj:get_luaentity().name == "digiframe:item" then
+      if obj and obj:get_luaentity() and obj:get_luaentity().name == "framing_api:item" then
         obj:remove()
       end
     end
   end
 end
 
-local update_item = function(pos, node)
-  remove_item(pos)
+framing_api.core.update_item = function(pos, node)
+  framing_api.core.remove_item(pos)
 
   local meta = minetest.get_meta(pos)
   local itemname = meta:get_string("item")
 
   if itemname ~= "" then
-    local delta = digiframe_facedir[node.param2] or digiframe_facedir[0]
+    local delta = framing_facedir[node.param2] or framing_facedir[0]
     local stack = ItemStack(itemname)
     local itemdef = minetest.registered_items[itemname]
 
@@ -151,8 +120,8 @@ local update_item = function(pos, node)
     meta:set_string("infotext", desc.." "..S("(framed)"))
 
     -- Entity display
-    local group = minetest.get_item_group(node.name, "digiframe")
-    local offset = digiframe.groups[group].offset
+    local group = minetest.get_item_group(node.name, "framing")
+    local offset = framing_api.groups[group].offset
 
     pos.x = pos.x + delta.x * offset.x
     pos.y = pos.y + offset.y
@@ -160,7 +129,7 @@ local update_item = function(pos, node)
     
     tmp.nodename = node.name
     tmp.texture = stack:get_name()
-    local ent = minetest.add_entity(pos, "digiframe:item")
+    local ent = minetest.add_entity(pos, "framing_api:item")
     local yaw = math.pi * 2 - node.param2 * math.pi / 2
     if (offset.rot ~= nil) then
       if itemdef and not is_extruded(itemdef) then
@@ -180,7 +149,17 @@ local update_item = function(pos, node)
   end
 end
 
-minetest.register_entity("digiframe:item",{
+framing_api.core.drop_item = function(pos, node)
+  local meta = minetest.get_meta(pos)
+  local itemname = meta:get_string("item")
+
+  if itemname ~= "" then
+    minetest.add_item(pos, itemname)
+    meta:set_string("item", "")
+  end
+end
+
+minetest.register_entity("framing_api:item",{
   hp_max = 1,
   visual="wielditem",
   visual_size={x = 0.33, y = 0.33},
@@ -205,7 +184,7 @@ minetest.register_entity("digiframe:item",{
     if self.texture ~= nil then
       self.object:set_properties({textures = {self.texture}})
     end
-    if minetest.get_item_group(self.nodename, "digiframe") == 2 then
+    if minetest.get_item_group(self.nodename, "framing") == 2 then
       self.object:set_properties({automatic_rotate = 1})
     end
     
@@ -216,7 +195,7 @@ minetest.register_entity("digiframe:item",{
         for _, obj in ipairs(objs) do
           if obj ~= self.object and
             obj:get_luaentity() and
-            obj:get_luaentity().name == "digiframe:item" and
+            obj:get_luaentity().name == "framing_api:item" and
             obj:get_luaentity().nodename == self.nodename and
             obj:get_properties() and
             obj:get_properties().textures and
@@ -241,9 +220,9 @@ minetest.register_entity("digiframe:item",{
 -- LBM: Automatically restore entities lost from frames
 -- due to /clearobjects or similar
 minetest.register_lbm({
-  label = "Maintain digiframe entities",
-  name = "digiframe:maintain_entities",
-  nodenames = {"group:digiframe"},
+  label = "Maintain frame entities",
+  name = "framing_api:maintain_entities",
+  nodenames = {"group:framing"},
   run_at_every_load = true,
   action = function(pos, node)
     minetest.after(0,
@@ -254,7 +233,7 @@ minetest.register_lbm({
           local objs = minetest.get_objects_inside_radius(pos, 0.5)
           if #objs == 0 then
             logger("LBM replacing missing", itemstring, node.name, pos)
-            update_item(pos, node)
+            framing_api.core.update_item(pos, node)
           end
         end
       end,
@@ -264,99 +243,23 @@ minetest.register_lbm({
 
 -- Node registration
 
-local nodeparts = {
-  digiline = {
-    receptor = {},
-    wire = {},
-    effector = {
-      action = function(pos, node, channel, msg)
-        local setchan = minetest.get_meta(pos):get_string("channel")
-        if channel ~= setchan then return end
-        
-        -- Be friendly with keyboards, digiline detector tube, etc.: 
-        -- text message is interpreted as "set" command
-        if type(msg) == "string" then
-          msg = { cmd = "set", item = msg }
-        elseif type(msg) ~= "table" then
-          return
-        end
-        if msg.cmd == "set" then
-          local itemstring = type(msg.item) == "string" 
-            and string.split(msg.item, " ")[1] -- ignore anything after the item string
-            or ""
-          local meta = minetest.get_meta(pos)
-          if itemstring == meta:get_string("item") then return end
-
-          meta:set_string("item", itemstring)
-          minetest.after(0, function() -- async object creation
-            local meta = minetest.get_meta(pos)
-            digilines.receptor_send(pos, digilines.rules.default, meta:get_string("channel"), {
-              event = "notify",
-              item = meta:get_string("item"),
-              origin = pos
-            })
-            update_item(pos, node)
-          end, pos, node)
-        elseif msg.cmd == "get" then
-          minetest.after(0, function() -- async notification
-            local meta = minetest.get_meta(pos)
-            digilines.receptor_send(pos, digilines.rules.default, meta:get_string("channel"), {
-              event = "get",
-              item = meta:get_string("item"),
-              origin = pos
-            })
-          end, pos, node)
-        end
-      end,
-    },
-  },
-  
-  on_construct = function(pos)
-    local meta = minetest.get_meta(pos)
-    meta:set_string("formspec", "field[channel;Channel;${channel}")
-  end,
-
-  on_receive_fields = function(pos, formname, fields, sender)
-    local name = sender:get_player_name()
-    if minetest.is_protected(pos, name) and not minetest.check_player_privs(name, {protection_bypass=true}) then
-      minetest.record_protection_violation(pos, name)
-      return
-    end
-    local meta = minetest.get_meta(pos)
-    if fields.channel then
-      meta:set_string("channel", fields.channel)
-    end
-  end,
-
-  on_destruct = function(pos)
-    remove_item(pos)
-  end,
-
-  on_rotate = screwdriver.disallow,
-}
-
-digiframe.register_node = function(itemname, nodedata)
-  -- Node registration
-  for k, v in pairs(nodeparts) do nodedata[k] = v end --[[
-     FIXME: Maybe it would be more robust to only copy the necessary fields?
-     --]]
+framing_api.register_node = function(itemname, nodedata)
+  -- Ensure we get a framing group
   nodedata.groups = nodedata.groups or {}
-  nodedata.groups.digiframe = nodedata.groups.digiframe or 1 -- default to frame-like
+  nodedata.groups.framing = nodedata.groups.framing or 1 -- default to frame-like
 
-  nodedata.digiline.wire.rules = function(node)
-    -- A bit messy, but easier for debug the nodes activate correct wiring rules...
-    local group = minetest.get_item_group(node.name, "digiframe") or 1
-    local f = digiframe.groups[group].wiring
-    if type(f) == "function" then
-      return f(node)
-    else
-      return f
-    end
+  -- Ensure the we have a default on_destruct
+  nodedata.on_destruct = nodedata.on_destruct or function(pos)
+    framing_api.core.remove_item(pos)
   end
+  
+  -- Disable screwdriver on frames
+  nodedata.on_rotate = screwdriver.disallow
 
+  -- Registration
   minetest.register_node(itemname, nodedata)
 
-  -- Stop mesecon pistons from pushing digiframes
+  -- Stop mesecon pistons from pushing frames
   if minetest.get_modpath("mesecons_mvps") then
     mesecon.register_mvps_stopper(itemname)
   end
